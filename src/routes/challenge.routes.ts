@@ -6,12 +6,10 @@ const router = Router();
 
 router.get(
   "/challenge/getchallenge",
-  verifyToken,
   challenge.getChallenge
 );
 router.get(
   "/challenge/getChallengeByIdChallenge/:challenge_id",
-  verifyToken,
   challenge.getChallengeByIdChallenge
 );
 router.post(
@@ -27,12 +25,10 @@ router.post(
 
 router.get(
   "/challenge/getChallengeByIdChallengeResult/:challenge_uid",
-  verifyToken,
   challenge.getChallengeByIdChallengeResult
 );
 router.get(
   "/challenge/getChallengeResultByIdChallenge/:challenge_uid",
-  verifyToken,
   challenge.getChallengeResultByIdChallenge
 );
 export default router;
