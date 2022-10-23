@@ -26,7 +26,7 @@ export const verifyToken = (
   if (!token) {
     return res.status(401).json({
       resp: false,
-      message: "Access non authoriser",
+      message: "Accès non autorisé",
     });
   }
 
