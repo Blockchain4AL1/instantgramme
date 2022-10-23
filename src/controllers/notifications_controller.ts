@@ -13,7 +13,6 @@ export const getNotificationsByUser = async (
       `CALL SP_GET_NOTIFICATION_BY_USER(?)`,
       [req.idPerson]
     );
-
     conn.end();
 
     return res.json({
