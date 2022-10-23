@@ -1,7 +1,7 @@
 import { Router } from "express";
 import * as challenge from "../controllers/challenge_controller";
 import { verifyToken } from "../middleware/verify_token";
-import { getChallengeResultByChallengeAndUserId } from "../controllers/challenge_controller";
+import {updateChallengeResultById} from "../controllers/challenge_controller";
 
 const router = Router();
 
@@ -15,10 +15,19 @@ router.post(
   verifyToken,
   challenge.createNewChallenge
 );
+
+
+
 router.post(
   "/challenge/createNewChallengeResult",
   verifyToken,
   challenge.createNewChallengeResult
+);
+
+router.post(
+    "/challenge/updateChallengeResultById",
+  verifyToken,
+    challenge.updateChallengeResultById
 );
 
 router.get(

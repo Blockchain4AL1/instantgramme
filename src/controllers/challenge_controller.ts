@@ -74,6 +74,36 @@ export const createNewChallenge = async (
   }
 };
 
+export const updateChallengeResultById = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
+  try {
+    const {
+      challenge_id,
+      resultat_obtenu,
+      temps_execution,
+      used_language,
+    }: IChallengeResult = req.body;
+
+    const conn = await connect();
+
+    await conn.query(
+      "UPDATE challenge set VALUES (resultat_obtenu = ?, temps_execution = ?, used_language = ?) WHERE  challenge_id = ?",
+      [resultat_obtenu, temps_execution, used_language, challenge_id]
+    );
+
+    return res.json({
+      message: "ChallengeResult mis à jour",
+      Challenge_uid: challenge_id,
+    });
+  } catch (err) {
+    return res.status(500).json({
+      message: err,
+    });
+  }
+};
+
 export const getChallenge = async (
   req: Request,
   res: Response
