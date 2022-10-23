@@ -1,13 +1,11 @@
 import { Router } from "express";
 import * as challenge from "../controllers/challenge_controller";
 import { verifyToken } from "../middleware/verify_token";
+import { getChallengeResultByChallengeAndUserId } from "../controllers/challenge_controller";
 
 const router = Router();
 
-router.get(
-  "/challenge/getchallenge",
-  challenge.getChallenge
-);
+router.get("/challenge/getchallenge", challenge.getChallenge);
 router.get(
   "/challenge/getChallengeByIdChallenge/:challenge_id",
   challenge.getChallengeByIdChallenge
@@ -30,5 +28,10 @@ router.get(
 router.get(
   "/challenge/getChallengeResultByIdChallenge/:challenge_uid",
   challenge.getChallengeResultByIdChallenge
+);
+
+router.get(
+  "/challenge/getChallengeResultByChallengeAndUserId/:challenge_uid/:user_uid",
+  challenge.getChallengeResultByChallengeAndUserId
 );
 export default router;

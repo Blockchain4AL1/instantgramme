@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-import axios, { AxiosResponse } from 'axios';
 import { v4 as uuidv4 } from "uuid";
 import { connect } from "../lib/connection";
 import {
