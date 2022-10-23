@@ -10,21 +10,22 @@ import {
 
 
 
-export const createNewChallenge = async (
+export const createNewChallengeResult = async (
   req: Request,
   res: Response
 ): Promise<Response> => {
   try {
-    const {challenge_id, resultat_obtenu, temps_execution}: IChallengeResult = req.body;
+    const {challenge_id, resultat_obtenu, temps_execution,used_language}: IChallengeResult = req.body;
     
 
     const conn = await connect();
 
     const uidChallenge = uuidv4();
+    
 
     await conn.query(
-      "INSERT INTO challenge (uid, challenge_id, resultat_obtenu, temps_execution) value (?,?,?,?)",
-      [uidChallenge, challenge_id, resultat_obtenu, temps_execution]
+      "INSERT INTO challenge_result (uid, challenge_id, resultat_obtenu, temps_execution, user_id, used_language) value (?,?,?,?,?,?)",
+      [uidChallenge, challenge_id, resultat_obtenu,temps_execution, req.idPerson, used_language]
     );
 
     return res.json({
@@ -38,7 +39,7 @@ export const createNewChallenge = async (
   }
 };
 
-export const createNewChallengeResult = async (
+export const createNewChallenge = async (
   req: Request,
   res: Response
 ): Promise<Response> => {
@@ -151,9 +152,6 @@ export const getChallenge = async (
   ): Promise<Response> => {
     try {
       const conn = await connect();
-      
-  
-  
       const challengeResults = await conn.query<RowDataPacket[]>(
         "SELECT * FROM challenge_result WHERE challenge_id = ? ORDER BY temps_execution DESC;",
         [req.params.challenge_uid]
