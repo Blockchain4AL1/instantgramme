@@ -89,7 +89,7 @@ export const updateChallengeResultById = async (
     const conn = await connect();
 
     await conn.query(
-      "UPDATE challenge_result SET resultat_obtenu = ?, temps_execution = ?, used_language = ? WHERE  challenge_id = ?",
+      "UPDATE challenge_result SET resultat_obtenu = ?, temps_execution = ?, used_language = ? WHERE  uid = ?",
       [resultat_obtenu, temps_execution, used_language, challenge_id]
     );
 
