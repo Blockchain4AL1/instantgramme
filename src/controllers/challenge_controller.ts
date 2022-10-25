@@ -185,11 +185,17 @@ export const getChallengeResultByIdChallenge = async (
   try {
     const conn = await connect();
     const challengeResults = await conn.query<RowDataPacket[]>(
-      "SELECT challenge_result.*, u.username AS username FROM challenge_result " +
-        "INNER JOIN person p on challenge_result.user_id = p.uid " +
-        "INNER JOIN users u on p.uid = u.person_uid " +
-        "WHERE challenge_id = '1d2c3394-9b79-42b4-810b-a801b68db79e' ORDER BY temps_execution DESC;",
-      [req.params.challenge_uid]
+      `SELECT cr.*,
+       u.username AS username,
+       (
+         SELECT COUNT(*) FROM challenge_result x 
+          WHERE cr.temps_execution >= x.temps_execution 
+          AND challenge_id = '${req.params.challenge_uid}'
+       ) AS position
+       FROM challenge_result cr
+        INNER JOIN person p on cr.user_id = p.uid
+        INNER JOIN users u on p.uid = u.person_uid
+        WHERE challenge_id = '${req.params.challenge_uid}' ORDER BY cr.temps_execution DESC;`
     );
 
     await conn.end();
