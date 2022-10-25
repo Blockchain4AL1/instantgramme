@@ -421,13 +421,11 @@ export const getLikeUserByPost = async (
   res: Response
 ): Promise<Response> => {
   try {
- 
-    const { uidPost}: ILikePost = req.body;
 
     const conn = await connect();
     const isLikedb = await conn.query<RowDataPacket[]>(
       `CALL SP_GET_LIKE_POST_BY_USER(?,?);`,
-      [uidPost,req.idPerson]
+      [req.params.uidPost,req.idPerson]
     );
 
     conn.end();
