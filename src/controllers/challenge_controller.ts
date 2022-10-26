@@ -224,8 +224,13 @@ export const getChallengeResultByChallengeAndUserId = async (
   try {
     const conn = await connect();
     const challengeResults = await conn.query<RowDataPacket[]>(
-      "SELECT * FROM challenge_result WHERE challenge_id = ? AND user_id = ? ORDER BY temps_execution DESC;",
-      [req.params.challenge_uid, req.params.user_uid]
+      `SELECT cr.*,  u.username AS username
+        FROM challenge_result cr
+          INNER JOIN person p on cr.user_id = p.uid
+          INNER JOIN users u on p.uid = u.person_uid
+        WHERE challenge_id = '${req.params.challenge_uid}' 
+          AND user_id = '${req.params.user_uid}' 
+        ORDER BY temps_execution ASC;`
     );
 
     await conn.end();
