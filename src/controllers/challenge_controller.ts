@@ -22,12 +22,12 @@ export const createNewChallengeResult = async (
 
     const conn = await connect();
 
-    const uidChallenge = uuidv4();
+    const uidChallengeResult = uuidv4();
 
     await conn.query(
       "INSERT INTO challenge_result (uid, challenge_id, resultat_obtenu, temps_execution, user_id, used_language) value (?,?,?,?,?,?)",
       [
-        uidChallenge,
+        uidChallengeResult,
         challenge_id,
         resultat_obtenu,
         temps_execution,
@@ -38,7 +38,7 @@ export const createNewChallengeResult = async (
 
     return res.json({
       message: "Challenge result",
-      Challenge_uid: uidChallenge,
+      uidChallengeResult: uidChallengeResult,
     });
   } catch (err) {
     return res.status(500).json({
@@ -101,7 +101,7 @@ export const updateChallengeResultById = async (
 
     return res.json({
       message: "ChallengeResult mis à jour",
-      Challenge_uid: challenge_id,
+      uidChallengeResult: req.body.uid,
     });
   } catch (err) {
     return res.status(500).json({
@@ -201,7 +201,7 @@ export const getChallengeResultByIdChallenge = async (
        FROM challenge_result cr
         INNER JOIN person p on cr.user_id = p.uid
         INNER JOIN users u on p.uid = u.person_uid
-        WHERE challenge_id = '${req.params.challenge_uid}' ORDER BY cr.temps_execution DESC;`
+        WHERE challenge_id = '${req.params.challenge_uid}' ORDER BY position ASC;`
     );
 
     await conn.end();
