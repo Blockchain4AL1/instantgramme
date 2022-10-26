@@ -93,8 +93,8 @@ export const updateChallengeResultById = async (
       [
         resultat_obtenu,
         temps_execution,
-        used_language,
         req.body.updated_at,
+        used_language,
         req.body.uid,
       ]
     );
