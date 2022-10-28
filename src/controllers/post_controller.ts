@@ -389,6 +389,32 @@ export const getAllPostByUserID = async (
   }
 };
 
+export const getAllPostByOtherUserID = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
+  try {
+    const conn = await connect();
+
+    const postsdb = await conn.query<RowDataPacket[]>(
+      `CALL SP_GET_ALL_POST_BY_USER(?);`,
+      [req.params.idPerson]
+    );
+
+    conn.end();
+
+    return res.json({
+      message: "Posts By User ID",
+      postUser: postsdb[0][0],
+    });
+  } catch (err) {
+    return res.status(500).json({
+      message: err,
+    });
+  }
+};
+
+
 export const getLikes = async (
   req: Request,
   res: Response

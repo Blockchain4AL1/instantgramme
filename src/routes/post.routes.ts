@@ -39,5 +39,6 @@ router.get(
 router.post("/post/addNewComment", verifyToken, post.addNewComment);
 router.put("/post/likeOrUnLikeComment", verifyToken, post.likeOrUnLikeComment);
 router.get("/post/getAllPostByUserID", verifyToken, post.getAllPostByUserID);
+router.get("/post/getAllPostByOtherUserID/:idPerson", verifyToken, post.getAllPostByOtherUserID);
 
 export default router;
