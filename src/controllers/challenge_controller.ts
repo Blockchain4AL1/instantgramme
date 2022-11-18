@@ -195,8 +195,11 @@ export const getChallengeResultByIdChallenge = async (
        u.username AS username,
        (
          SELECT COUNT(*) FROM challenge_result x
-          WHERE cr.temps_execution >= x.temps_execution
-            AND CAST(cr.resultat_obtenu AS DECIMAL(4,3) ) <= CAST(x.resultat_obtenu AS DECIMAL(4,3))
+          WHERE (CAST(cr.resultat_obtenu AS DECIMAL(4,3) ) < CAST(x.resultat_obtenu AS DECIMAL(4,3))
+                OR
+                 (cr.temps_execution >= x.temps_execution
+            AND CAST(cr.resultat_obtenu AS DECIMAL(4,3) ) <= CAST(x.resultat_obtenu AS DECIMAL(4,3))))
+
           AND challenge_id = '${req.params.challenge_uid}'
        ) AS position
        FROM challenge_result cr
