@@ -1,7 +1,7 @@
 {
   "name": "reseau_social_final",
   "version": "1.0.0",
-  "description": "projet annuel",
+  "description": "instantgramme",
   "main": "index.js",
   "scripts": {
     "start": "node server.js",
@@ -12,7 +12,7 @@
     "clean": "rimraf dist"
   },
   "keywords": [],
-  "author": "Bob Nelson",
+  "author": "Amaury Grillot",
   "license": "ISC",
   "dependencies": {
     "@pusher/push-notifications-web": "^1.1.0",

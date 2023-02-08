@@ -40,7 +40,7 @@ export const login = async (req: Request, res: Response): Promise<Response> => {
 
     const { uid } = uidPersondb[0][0];
 
-    let token = generateJsonWebToken(uid);
+    const token = generateJsonWebToken(uid);
 
     conn.end();
 
@@ -73,7 +73,7 @@ export const renweLogin = async (req: Request, res: Response) => {
 const resendCodeEmail = async (email: string): Promise<void> => {
   const conn = await connect();
 
-  var randomNumber = Math.floor(10000 + Math.random() * 90000);
+  const randomNumber = Math.floor(10000 + Math.random() * 90000);
 
   await conn.query("UPDATE users SET token_temp = ? WHERE email = ?", [
     randomNumber,

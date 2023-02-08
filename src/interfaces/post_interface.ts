@@ -18,7 +18,6 @@ export interface ILikePost {
   uidPerson: string;
 }
 
-
 export interface INewComment {
   uidPost: string;
   comment: string;

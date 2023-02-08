@@ -8,7 +8,7 @@ type DestinationCallback = (error: Error | null, destination: string) => void;
 type FileNameCallback = (error: Error | null, filename: string) => void;
 
 // Path to store the cover image
-var storageCover = multer.diskStorage({
+const storageCover = multer.diskStorage({
   destination: "uploads/profile/cover",
   filename: (_, file, cb) => {
     cb(null, uuid() + path.extname(file.originalname));
@@ -16,7 +16,7 @@ var storageCover = multer.diskStorage({
 });
 
 // Path to store the Profile image
-var storageProfile = multer.diskStorage({
+const storageProfile = multer.diskStorage({
   destination: "uploads/profile",
   filename: (req, file, cb): void => {
     cb(null, uuid() + path.extname(file.originalname));
@@ -24,7 +24,7 @@ var storageProfile = multer.diskStorage({
 });
 
 // Path to store the posts images
-var storagePost = multer.diskStorage({
+const storagePost = multer.diskStorage({
   destination: "uploads/posts",
   filename: (_, file, cb): void => {
     cb(null, uuid() + path.extname(file.originalname));

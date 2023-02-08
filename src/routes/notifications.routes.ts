@@ -12,8 +12,8 @@ router.get(
 
 router.get(
   "/notification/getNotificationsByUserId/:idPerson",
-    verifyToken,
-    noti.getNotificationsByUserId
+  verifyToken,
+  noti.getNotificationsByUserId
 );
 
 export default router;

@@ -5,7 +5,6 @@ import { createServer, Server } from "http";
 import routesUser from "./routes/user.routes";
 import routesPost from "./routes/post.routes";
 import routesNotifications from "./routes/notifications.routes";
-import routesChallenges from "./routes/challenge.routes";
 
 export class App {
   private app: Application;
@@ -40,7 +39,6 @@ export class App {
     this.app.use(this.apiRoutes.user, routesUser);
     this.app.use(this.apiRoutes.post, routesPost);
     this.app.use(this.apiRoutes.notification, routesNotifications);
-    this.app.use(this.apiRoutes.challenge, routesChallenges);
   }
 
   async listen(port: string): Promise<void> {

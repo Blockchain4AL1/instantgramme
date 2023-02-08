@@ -48,7 +48,7 @@ export const createNewPost = async (
 
     return res.json({
       message: "Posted",
-      post_uid: uidPost
+      post_uid: uidPost,
     });
   } catch (err) {
     return res.status(500).json({
@@ -84,7 +84,6 @@ export const getAllPostHome = async (
   }
 };
 
-
 export const getPostByIdPost = async (
   req: Request,
   res: Response
@@ -112,7 +111,6 @@ export const getPostByIdPost = async (
     });
   }
 };
-
 
 export const getPostByIdPerson = async (
   req: Request,
@@ -414,7 +412,6 @@ export const getAllPostByOtherUserID = async (
   }
 };
 
-
 export const getLikes = async (
   req: Request,
   res: Response
@@ -447,11 +444,10 @@ export const getLikeUserByPost = async (
   res: Response
 ): Promise<Response> => {
   try {
-
     const conn = await connect();
     const isLikedb = await conn.query<RowDataPacket[]>(
       `CALL SP_GET_LIKE_POST_BY_USER(?,?);`,
-      [req.params.uidPost,req.idPerson]
+      [req.params.uidPost, req.idPerson]
     );
 
     conn.end();
