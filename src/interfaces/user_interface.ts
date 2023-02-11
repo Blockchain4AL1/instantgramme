@@ -3,6 +3,9 @@ export interface User {
   fullname: string;
   email: string;
   password: string;
+  firstname: string;
+  lastname: string;
+
 }
 
 export interface IUpdateProfile {
@@ -26,7 +29,7 @@ export interface IAcceptFollowerRequest {
   uidNotification: string;
 }
 export interface SignIn {
-  email: string;
+  username: string;
   password: string;
 }
 

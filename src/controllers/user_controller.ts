@@ -18,7 +18,7 @@ export const createUser = async (
   res: Response
 ): Promise<Response> => {
   try {
-    const { username, fullname, email, password }: User = req.body;
+    const { username, fullname, email, password, firstname, lastname }: User = req.body;
 
     const conn = await connect();
 
@@ -38,16 +38,20 @@ export const createUser = async (
 
     const randomNumber = Math.floor(10000 + Math.random() * 90000);
 
-    await conn.query(`CALL SP_REGISTER_USER(?,?,?,?,?,?,?);`, [
+    await conn.query(`Insert Into users (uid,
+                   description, username, email, password, person_uid,is_private) values (?,?,?,?,?,?,?);`, [
       uuidv4(),
       fullname,
       username,
       email,
       pass,
+      firstname,
+      lastname,
       uuidv4(),
-      randomNumber,
+      1,
     ]);
     conn.end();
+
 
     return res.status(201).json({
       message: "Registered user successfully",

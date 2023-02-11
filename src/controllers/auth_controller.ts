@@ -5,17 +5,18 @@ import { SignIn } from "../interfaces/user_interface";
 import { connect } from "../lib/connection";
 import { generateJsonWebToken } from "../lib/generate_jwt";
 import { IVerifyUser } from "../interfaces/user_interface";
+import {StreamChat} from "stream-chat";
 
 export const login = async (req: Request, res: Response): Promise<Response> => {
   try {
-    const { email, password }: SignIn = req.body;
+    const { username, password }: SignIn = req.body;
 
     const conn = await connect();
 
     // Check is exists Email on database
     const [SignIndb] = await conn.query<RowDataPacket[0]>(
-      "SELECT email, password FROM users WHERE email = ?",
-      [email]
+      "SELECT username, password FROM users WHERE username = ?",
+      [username]
     );
 
     if (SignIndb.length == 0) {
@@ -33,20 +34,40 @@ export const login = async (req: Request, res: Response): Promise<Response> => {
       });
     }
 
+    //fix provisoire : pas compris comment const ca marchait { uid } = uidPersondb[0][0];
     const uidPersondb = await conn.query<RowDataPacket[]>(
-      "SELECT person_uid as uid FROM users WHERE email = ?",
-      [email]
+      "SELECT description as uid FROM users WHERE username = ?",
+      [username]
+    );
+    const uidPersondbfn = await conn.query<RowDataPacket[]>(
+        "SELECT firstname as fname FROM users WHERE username = ?",
+        [username]
+    );
+    const uidPersondbln = await conn.query<RowDataPacket[]>(
+        "SELECT lastname as lname FROM users WHERE username = ?",
+        [username]
     );
 
     const { uid } = uidPersondb[0][0];
-
-    const token = generateJsonWebToken(uid);
+    const { fname } = uidPersondbfn[0][0];
+    const { lname } = uidPersondbln[0][0];
 
     conn.end();
 
+// Initialize a Server Client
+    const serverClient = StreamChat.getInstance(`${process.env.API_KEY}`, `${process.env.SECRET}`);
+// Create User Token
+    const userToken = serverClient.createToken(username);
+
     return res.json({
-      message: "Welcome on  projet annuel",
-      token: "Bearer " + token,
+      message: "Welcome on  instatagram",
+      token: "Bearer ",
+      username: username,
+      description:uid,
+      userToken : userToken,
+      firstname : fname,
+      lastname : lname,
+
     });
   } catch (err) {
     return res.status(500).json({
