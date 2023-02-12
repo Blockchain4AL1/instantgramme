@@ -21,6 +21,17 @@ export const createUser = async (
     const { username, fullname, email, password, firstname, lastname }: User = req.body;
 
     const conn = await connect();
+    
+    const [existsUsername] = await conn.query<RowDataPacket[]>(
+      "SELECT username FROM users WHERE username = ?",
+      [username]
+    );
+
+    if (existsUsername.length > 0) {
+      return res.status(401).json({
+        message: "username already used!",
+      });
+    }
 
     const [existsEmail] = await conn.query<RowDataPacket[]>(
       "SELECT email FROM users WHERE email = ?",
@@ -33,16 +44,6 @@ export const createUser = async (
       });
     }
 
-    const [existsUsername] = await conn.query<RowDataPacket[]>(
-      "SELECT username FROM users WHERE username = ?",
-      [username]
-    );
-
-    if (existsUsername.length > 0) {
-      return res.status(401).json({
-        message: "username already used!",
-      });
-    }
 
     const salt = bcrypt.genSaltSync();
     const pass = bcrypt.hashSync(password, salt);
