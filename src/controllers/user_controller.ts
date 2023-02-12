@@ -29,7 +29,18 @@ export const createUser = async (
 
     if (existsEmail.length > 0) {
       return res.status(401).json({
-        message: "email as use!",
+        message: "email already used!",
+      });
+    }
+
+    const [existsUsername] = await conn.query<RowDataPacket[]>(
+      "SELECT username FROM users WHERE username = ?",
+      [username]
+    );
+
+    if (existsUsername.length > 0) {
+      return res.status(401).json({
+        message: "username already used!",
       });
     }
 
@@ -39,7 +50,7 @@ export const createUser = async (
     const randomNumber = Math.floor(10000 + Math.random() * 90000);
 
     await conn.query(`Insert Into users (uid,
-                   description, username, email, password, person_uid,is_private) values (?,?,?,?,?,?,?);`, [
+                   description, username, email, password, firstname, lastname, person_uid, is_private) values (?,?,?,?,?,?,?,?,?);`, [
       uuidv4(),
       fullname,
       username,
